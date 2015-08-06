@@ -318,6 +318,7 @@
 /dev/coresight-tmc-etr                          u:object_r:qdss_device:s0
 /dev/coresight-tmc-etr-stream                   u:object_r:qdss_device:s0
 /dev/system_health_monitor                      u:object_r:system_health_monitor_device:s0
+/dev/block/bootdevice/by-name/frp               u:object_r:frp_block_device:s0
 
 ###################################
 # Dev socket nodes
@@ -419,6 +420,7 @@
 /system/bin/gpsone_daemon                       u:object_r:location_exec:s0
 /system/vendor/bin/slim_ap_daemon               u:object_r:location_exec:s0
 /system/bin/energy-awareness                    u:object_r:energyawareness_exec:s0
+/system/bin/dts_configurator                    u:object_r:dtsconfigurator_exec:s0
 /system/vendor/bin/qti                          u:object_r:qti_exec:s0
 /system/bin/wcnss_service                       u:object_r:wcnss_service_exec:s0
 /system/vendor/bin/hbtp_daemon                  u:object_r:hbtp_exec:s0
@@ -488,6 +490,7 @@
 /data/FTM_AP(/.*)?                                                  u:object_r:mmi_data_file:s0
 /data/misc/hbtp(/.*)?                                               u:object_r:hbtp_log_file:s0
 /data/misc/qlogd(/.*)?                                              u:object_r:qlogd_data_file:s0
+/data/misc/dts(/.*)?                                                u:object_r:dts_data_file:s0
 
 ###################################
 # persist files
@@ -570,27 +573,30 @@
 
 #Context for mediaserver
 /data/display-tests/media(/.*)?                 u:object_r:display_test_media_file:s0
+#line 1 "device/cyanogen/msm8939-common/sepolicy/file_contexts"
+/sys/devices/virtual/graphics/fb0/rgb           u:object_r:display_sysfs:s0
+
+/persist/.bt_nv.bin                             u:object_r:bluetooth_data_file:s0
+
+/system/bin/btnvtool                            u:object_r:bluetooth_loader_exec:s0
+/system/etc/init\.qcom\.bt\.sh                  u:object_r:bluetooth_loader_exec:s0
+
+/dev/smd3                                       u:object_r:hci_attach_dev:s0
 #line 1 "device/yu/tomato/sepolicy/file_contexts"
 /sys/devices/virtual/touchscreen/touchscreen_dev/gesture_ctrl  u:object_r:touchpanel_sysfs:s0
 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-005d/keypad_enable      u:object_r:touchpanel_sysfs:s0
 
 /dev/aw-leds                                    u:object_r:leds_device:s0
 /dev/color_enhancement                          u:object_r:color_device:s0
-/sys/devices/virtual/graphics/fb0/rgb           u:object_r:display_sysfs:s0
 
 # Yulong interfaces
 /dev/yl_alsprox_sensor                          u:object_r:sensors_device:s0
 /dev/yl_params1                                 u:object_r:ylparams_device:s0
 
 /persist/.genmac                                u:object_r:wifi_data_file:s0
-/persist/.bt_nv.bin                             u:object_r:bluetooth_data_file:s0
 
-/system/bin/btnvtool                            u:object_r:bluetooth_loader_exec:s0
 /system/bin/yl_btmac                            u:object_r:bluetooth_loader_exec:s0
-/system/etc/init\.qcom\.bt\.sh                  u:object_r:bluetooth_loader_exec:s0
-
-/dev/smd3                                       u:object_r:hci_attach_dev:s0
-#line 1 "vendor/eos/sepolicy/file_contexts"
+#line 1 "vendor/cm/sepolicy/file_contexts"
 /cache/dalvik-cache(/.*)? u:object_r:dalvikcache_data_file:s0
 
 /cache/recovery(/.*)?     u:object_r:recovery_cache_file:s0
@@ -611,7 +617,7 @@
 /sbin/minivold            u:object_r:vold_exec:s0
 
 #############################
-# performance-related sysfs files
+# performance-related sysfs files (CM)
 /sys/devices/system/cpu.*/cpufreq(/.*)? --  u:object_r:sysfs_devices_system_cpu:s0
 /sys/block/mmcblk.*/queue/scheduler  --    u:object_r:sysfs_devices_system_iosched:s0
 
